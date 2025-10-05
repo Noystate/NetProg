@@ -49,8 +49,10 @@ int main(int argc, char *argv[]) {
     // Отправляем сообщение
     char *message = argv[2];
     size_t message_len = strlen(message);
+    ssize_t bytes_sent;
     
-    if (send(sockfd, message, message_len, 0) != message_len) {
+    bytes_sent = send(sockfd, message, message_len, 0);
+    if (bytes_sent < 0 || (size_t)bytes_sent != message_len) {
         perror("Ошибка отправки данных");
         close(sockfd);
         exit(EXIT_FAILURE);
